@@ -1,0 +1,32 @@
+{
+  "name": "browser-fingerprint-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-only browser/device fingerprint signal inspector for security research and learning. Collects and displays signals that are legitimately available to an ordinary website. Stores nothing, tracks nobody.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "esbuild src/client/main.ts --bundle --format=esm --target=es2022 --sourcemap --outfile=public/assets/app.js",
+    "build:server": "tsc -p tsconfig.server.json",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('public/assets',{recursive:true,force:true})\"",
+    "dev": "npm run build && npm start",
+    "start": "node dist/server/index.js",
+    "inspect": "node scripts/inspect.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck:api": "tsc -p tsconfig.api.json --noEmit",
+    "verify": "npm run typecheck && npm run typecheck:api && npm run build",
+    "dev:vercel": "vercel dev"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.5",
+    "mongodb": "^7.7.0"
+  }
+}
